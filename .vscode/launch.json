@@ -28,13 +28,21 @@
         "type": "python",
         "request": "launch",
         "stopOnEntry": false,
-        "python": "${workspaceFolder}/.venv/Scripts/python", //path of python in your local machine where odoo has installed
+        // "python": "${workspaceRoot}\\.venv\\Scripts\\python", //path of python in your local machine where odoo has installed
         "console": "integratedTerminal",
-        "program": "${workspaceRoot}\\odoo-bin",
+        "program": "${workspaceRoot}\\odoo\\odoo-bin",
         "args": [
-            "--config=${workspaceRoot}\\odoo.conf",
-            "--addons-path=addons,C:\\Users\\vanty\\Downloads\\Odoo\\odoo-basic",
-            "-r odoo -w odoo",
+            "--config=${workspaceRoot}\\odoo\\etc\\odoo\\odoo.conf",
+            "--addons-path=.\\odoo\\addons,${workspaceRoot}\\odoo-basic",
+            // "-r",
+            // "odoo",
+            // "-w",
+            // "odoo",
+            // "-d",
+            // "odoo",
+            // "-i",
+            // "base"    
+
         ],
         "cwd": "${workspaceRoot}",
         "env": {},
