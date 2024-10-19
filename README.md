@@ -11,6 +11,7 @@ Get-Service ssh-agent
 ssh-agent
 
 ssh-add
+ssh-add ~/.ssh/id_rsa
 
 Fix Error unable to start ssh-agent service, error: 1058(xxxx)
 win + R, Go To services.msc
