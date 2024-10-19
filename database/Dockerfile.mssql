@@ -1,0 +1,11 @@
+FROM mcr.microsoft.com/mssql/server:2019-latest
+USER root
+ENV SA_PASSWORD=123456
+ENV ACCEPT_EULA=Y
+
+COPY ./Northwind.bak /var/opt/mssql/data/
+COPY ./AdventureWorks2019.bak /var/opt/mssql/data/
+
+RUN /opt/mssql/bin/sqlservr --accept-eula & sleep 30 \
+    && /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '123456' -Q 'RESTORE DATABASE Northwind FROM DISK = "/var/opt/mssql/data/Northwind.bak" WITH MOVE "Northwind" TO "/var/opt/mssql/data/Northwind.mdf", MOVE "Northwind_log" TO "/var/opt/mssql/data/Northwind_log.ldf"' \
+    && /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P '123456' -Q 'RESTORE DATABASE AdventureWorks2019 FROM DISK = "/var/opt/mssql/data/AdventureWorks2019.bak" WITH MOVE "AdventureWorks2019" TO "/var/opt/mssql/data/AdventureWorks2019.mdf", MOVE "AdventureWorks2019_log" TO "/var/opt/mssql/data/AdventureWorks2019_log.ldf"'

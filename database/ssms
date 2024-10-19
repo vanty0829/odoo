@@ -1,0 +1,40 @@
+# 1. Run the MSSQL container on the Docker:
+docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<YourStrong!Passw0rd>" --name "sql" -p 1433:1433 -v sqldata:/var/opt/mssql -d mcr.microsoft.com/mssql/server:2017-latest
+
+# 2. Restore AdventureWorks2017 database:
+
+# create the backup folder on data volume container
+docker exec -it sql mkdir /var/opt/mssql/backup
+
+# download the AdventureWorks file
+curl -OutFile "AdventureWorks2017.bak" "https://github.com/Microsoft/sql-server-samples/releases/download/adventureworks/AdventureWorks2017.bak"
+
+# copy the AdventureWorks file into the backup folder
+docker cp AdventureWorks2019.bak sql:/var/opt/mssql/backup
+
+
+https://github.com/CrusadorBoz/Northwind
+
+https://medium.com/@newianlin/dockerize-sql-server-with-build-in-adventureworks-and-northwinds-e21d10c20a6b
+
+docker buildx build -t tyle0829/mssql:0.0.1 -f Dockerfile.mssql .
+docker tyle0829/mssql:0.0.1
+
+RESTORE DATABASE AdventureWorks2019
+FROM DISK = '/var/opt/mssql/data/AdventureWorks2019.bak'
+WITH MOVE 'AdventureWorks2019' TO '/var/opt/mssql/data/AdventureWorks2019_Data.mdf',
+     MOVE 'AdventureWorks2019_log' TO '/var/opt/mssql/data/AdventureWorks2019_Log.ldf',
+     REPLACE;
+
+
+https://freedium.cfd/https://medium.com/@bnhminh_38309/restore-a-sql-server-database-using-azure-data-studio-and-docker-930371507fd8
+
+docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Abcd@123' -p 1433:1433 --name sql -d mcr.microsoft.com/mssql/server:2022-latest
+
+docker cp ./AdventureWorksDW2022.bak sql:/var/opt/mssql/data
+
+RESTORE DATABASE AdventureWorksDW2022
+FROM DISK = '/var/opt/mssql/data/AdventureWorksDW2022.bak'
+WITH MOVE 'AdventureWorksDW2022' TO '/var/opt/mssql/data/AdventureWorksDW2022_Data.mdf',
+     MOVE 'AdventureWorksDW2022_log' TO '/var/opt/mssql/data/AdventureWorksDW2022_Log.ldf',
+     REPLACE;
