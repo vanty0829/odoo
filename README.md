@@ -14,7 +14,7 @@ ssh-add
 
 Fix Error unable to start ssh-agent service, error: 1058(xxxx)
 win + R, Go To services.msc
-Find And Check Is OpenSSH Authentication Agent Service Running
+Find And Check Is OpenSSH Authentication Agent Service Running -> change to manual
 
 start-ssh-agent
 
