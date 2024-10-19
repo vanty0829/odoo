@@ -16,8 +16,11 @@ Long description of module's purpose
     # for the full list
     'category': 'Uncategorized',
     'version': '0.1',
+    #thứ tự khai báo file trong data có dependency
     'data': [
-        'views/player_view.xml'
+        'security/player_security.xml',
+        'security/ir.model.access.csv',
+        'views/player_view.xml',
     ],
     # any module necessary for this one to work correctly
     'depends': ['base'],
