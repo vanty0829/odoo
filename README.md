@@ -27,6 +27,8 @@ git clone --branch 17.0 git@github.com:odoo/odoo.git
 
 python -m venv .venv
 
+https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
 pip install setuptools wheel
 pip install -r requirements.txt
 
