@@ -2,6 +2,8 @@ https://www.surekhatech.com/blog/how-to-install-odoo-in-windows
 
 https://github.com/Mountant2021/odoo-basic
 
+https://gist.github.com/Guidoom/d5db0a76ce669b139271a528a8a2a27f
+
 gen ssh-key
 ssh-keygen -t ed25519 -C "vanty0829@gmail.com" 
 
