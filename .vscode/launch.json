@@ -23,6 +23,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
         "name": "Python: Odoo17",
         "type": "python",
@@ -32,7 +33,7 @@
         "console": "integratedTerminal",
         "program": "${workspaceRoot}\\odoo\\odoo-bin",
         "args": [
-            "--config=${workspaceRoot}\\odoo\\etc\\odoo\\odoo.conf",
+            "--config=${workspaceRoot}\\odoo-basic\\etc\\odoo.conf",
             "--addons-path=.\\odoo\\addons,${workspaceRoot}\\odoo-basic",
             // "-r",
             // "odoo",
