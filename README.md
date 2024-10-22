@@ -39,3 +39,10 @@ python odoo-bin -r odoo -w odoo --addons-path=addons,C:\Users\vanty\Downloads\Od
 
 python odoo-bin -r odoo -w odoo --addons-path=addons,C:\Users\vanty\Downloads\Odoo\odoo-basic -d odoo
 python odoo-bin scaffold module-2 C:\Users\vanty\Downloads\Odoo\odoo-basic
+
+
+https://www.odoo.com/documentation/13.0/developer/howtos/web.html
+https://minhng.info/odoo/tao-widget-odoo.html
+https://www.cybrosys.com/blog/how-to-effectively-create-a-field-widget-in-odoo-15
+https://www.odoo.com/documentation/18.0/developer/howtos/javascript_field.html
+https://minhng.info/odoo/them-button-list-view-odoo.html
