@@ -1,28 +1,25 @@
 <odoo>
-	<record id="house_view_form" model="ir.ui.view">
-		<field name="name">house.form</field>
-		<field name="model">house</field>
+	<record id="table_view_form" model="ir.ui.view">
+		<field name="name">tables.form</field>
+		<field name="model">tables</field>
 		<field name="arch" type="xml">
-			<form string="House">
+			<form string="Table">
 				<sheet>
 					<group>
 						<field name="name" />
-						<group>
-							<field name="people_id" />
-						</group>
-						<group></group>
-						<field name="people_ids" />
+						<field name="schema_id" />
+						<field name="full_name" />
 					</group>
 				</sheet>
 			</form>
 		</field>
 	</record>
 
-	<record id="house_action" model="ir.actions.act_window">
-		<field name="name">House</field>
+	<record id="table_action" model="ir.actions.act_window">
+		<field name="name">Table</field>
 		<field name="type">ir.actions.act_window</field>
-		<field name="res_model">house</field>
+		<field name="res_model">tables</field>
 	</record>
 
-	<menuitem id="menu_house" name="Many2xxx Field" parent="menu_field" action='house_action' />
+	<menuitem id="table" name="Table" parent="menu_field" action='table_action' />
 </odoo>

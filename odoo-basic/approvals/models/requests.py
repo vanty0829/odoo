@@ -4,12 +4,17 @@ from odoo import api, fields, models, _
 class Requests(models.Model):
     _name = 'requests' # tển bảng
     _description = 'Requests'
-
+    _rec_name = 'title'
     title = fields.Char(string='Title')
-    description = fields.Char(string='Title')
+    description = fields.Char(string='Description')
     schema_id = fields.Many2many('schemas', string='Schema')
     table_id = fields.Many2many('tables', string='Table')
-    column_id = fields.Many2many('columns', string='Column')
+    users = fields.Text(string='Users')
+    
+    from_date = fields.Datetime(string='From Date')
+    to_date = fields.Datetime(string='To Date')
+    active = fields.Boolean(default=True)
+    # column_id = fields.Many2many('columns', string='Column')
     # image = fields.Binary(string='Image', attachment = True)
     # country = fields.Char(string='Country', required = True)
     # gender = fields.Selection([('male','Male'),('female','Female')], string= 'Gender', default='male')

@@ -20,7 +20,11 @@ Long description of module's purpose
     'data': [
         # 'security/player_security.xml',
         # 'security/ir.model.access.csv',
-        'views/approvals_view.xml',
+        'views/root_menu.xml',
+        'views/schema_views.xml',
+        'views/table_views.xml',
+        'views/request_views.xml',
+        
     ],
     # any module necessary for this one to work correctly
     'depends': ['base'],
