@@ -14,6 +14,23 @@ class Requests(models.Model):
     from_date = fields.Datetime(string='From Date')
     to_date = fields.Datetime(string='To Date')
     active = fields.Boolean(default=True)
+
+    request_state = [
+        ('draft', "Draft"),
+        ('submitted', "Submitted"),
+        ('approved', "Approved"),
+    ]
+
+
+    state = fields.Selection(
+        selection=request_state,
+        string="Status",
+        readonly=True, copy=False, index=True,
+        tracking=3,
+        default='draft')
+    
+    def action_submit(self):
+        self.state = 'submitted'
     # column_id = fields.Many2many('columns', string='Column')
     # image = fields.Binary(string='Image', attachment = True)
     # country = fields.Char(string='Country', required = True)

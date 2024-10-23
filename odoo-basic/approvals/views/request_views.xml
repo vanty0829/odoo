@@ -4,6 +4,10 @@
 		<field name="model">requests</field>
 		<field name="arch" type="xml">
 			<form string="Request">
+				<header>
+					<button name="action_submit" type="object" string="Submit" invisible="state not in ['draft']" data-hotkey="s" class="btn-primary"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+            	</header>
 				<sheet>
 					<field name="active" invisible="1"/>
 					<div name="button_box" class="oe_button_box"/>
