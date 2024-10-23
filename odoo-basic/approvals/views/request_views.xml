@@ -18,6 +18,7 @@
 			<form string="Request">
 				<header>
 					<button name="action_submit" type="object" string="Submit" invisible="state not in ['draft']" data-hotkey="s" class="btn-primary"/>
+					<button name="action_check" type="object" string="Check"  class="btn-primary"/>
 					<field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
             	</header>
 				<sheet>
@@ -43,7 +44,8 @@
 							<field name="schema_id" />
 						</group>
 						<group>
-							<field name="table_id" />
+							<field name="table_id" domain="table_id_domain"/>
+							<field name="table_id_domain" invisible="1"/>
 						</group>
 					</group>
 				</sheet>
