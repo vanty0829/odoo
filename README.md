@@ -53,3 +53,11 @@ https://www.mssqltips.com/sqlservertip/8024/microsoft-fabric-warehouse-configure
 https://www.data-traveling.com/articles/microsoft-fabric-admin-how-to-create-multiple-workspaces-using-python
 https://github.com/gjoaquim/GuilhermeJoaquim/blob/main/Fabric%20Admin/CreateFabricWorkspace.py
 https://learn.microsoft.com/en-us/fabric/data-engineering/notebook-public-api
+https://learn.microsoft.com/en-us/rest/api/fabric/articles/
+https://gist.github.com/murggu/09d7befcb157011c340c51cb5d4af42f
+
+https://learn.microsoft.com/en-us/graph/auth-v2-user?tabs=http
+
+
+https://learn.microsoft.com/en-us/fabric/onelake/security/data-access-control-model
+https://learn.microsoft.com/en-us/fabric/data-warehouse/security
