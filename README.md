@@ -52,3 +52,4 @@ fabric permission
 https://www.mssqltips.com/sqlservertip/8024/microsoft-fabric-warehouse-configure-access-and-permissions/
 https://www.data-traveling.com/articles/microsoft-fabric-admin-how-to-create-multiple-workspaces-using-python
 https://github.com/gjoaquim/GuilhermeJoaquim/blob/main/Fabric%20Admin/CreateFabricWorkspace.py
+https://learn.microsoft.com/en-us/fabric/data-engineering/notebook-public-api
