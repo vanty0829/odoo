@@ -46,3 +46,9 @@ https://minhng.info/odoo/tao-widget-odoo.html
 https://www.cybrosys.com/blog/how-to-effectively-create-a-field-widget-in-odoo-15
 https://www.odoo.com/documentation/18.0/developer/howtos/javascript_field.html
 https://minhng.info/odoo/them-button-list-view-odoo.html
+
+
+fabric permission
+https://www.mssqltips.com/sqlservertip/8024/microsoft-fabric-warehouse-configure-access-and-permissions/
+https://www.data-traveling.com/articles/microsoft-fabric-admin-how-to-create-multiple-workspaces-using-python
+https://github.com/gjoaquim/GuilhermeJoaquim/blob/main/Fabric%20Admin/CreateFabricWorkspace.py
