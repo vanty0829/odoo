@@ -30,6 +30,10 @@ class Requests(models.Model):
             id = id + 1
         # ['|',('full_name','=like','bronze.%'),('full_name','=like','silver.%')]
         self.table_id_domain = str(domain)
+        list1 = [i.id for i in self.env['tables'].search(domain)]
+        list2 = [i.ids[0] for i in self.table_id]
+        
+        self.write({"table_id":[(6,0,list(set(list1) & set(list2)))]}) 
 
     table_id = fields.Many2many('tables', string='Table')
     users = fields.Text(string='Users')
