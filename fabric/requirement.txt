@@ -2,4 +2,4 @@ azure-storage-blob
 azure-identity
 pandas
 pbipy
-semantic-link
+python-dotenv
