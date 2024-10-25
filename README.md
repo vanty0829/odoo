@@ -65,3 +65,25 @@ https://www.mssqltips.com/sqlservertip/8046/microsoft-fabric-warehouse-object-co
 
 
 DENY SELECT ON SCHEMA::bronze TO [usertest1@dataverse.com.vn];
+
+GRANT SELECT ON OBJECT::bronze.test2 TO [usertest1@dataverse.com.vn];
+
+
+
+Select P.name As Principal,
+	class_desc As PermissionLevel,
+	permission_name As PermissionGranted,
+	ObjectName = Case class When 0 Then DB_NAME()
+		When 1 Then SCHEMA_NAME(schema_id) + N'.' + OBJECT_NAME(major_id)
+		End
+From sys.database_permissions As DP
+Inner Join sys.database_principals As P On P.principal_id = DP.grantee_principal_id
+join sys.objects ob on DP.major_id = ob.object_id and class = 1
+
+
+https://blog.gopenai.com/microsoft-fabric-and-langchain-sql-integration-for-natural-language-to-sql-51b448836017
+
+
+https://github.com/m-kovalsky/Fabric
+
+https://prodata.ie/2024/08/26/connecting-to-fabric-sqlendpoints-using-aad-entra-token-in-notebooks/

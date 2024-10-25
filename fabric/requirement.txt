@@ -4,3 +4,5 @@ pandas
 pbipy
 python-dotenv
 pyyaml
+pyodbc
+SQLAlchemy
