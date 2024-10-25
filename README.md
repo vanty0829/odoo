@@ -86,4 +86,4 @@ https://blog.gopenai.com/microsoft-fabric-and-langchain-sql-integration-for-natu
 
 https://github.com/m-kovalsky/Fabric
 
-https://prodata.ie/2024/08/26/connecting-to-fabric-sqlendpoints-using-aad-entra-token-in-notebooks/
+https://prodata.ie/2024/08/26/connecting-to-fabric-sqlendpoints-using-aad-entra-token-in-notebooks/   --> this work
