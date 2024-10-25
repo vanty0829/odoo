@@ -3,3 +3,4 @@ azure-identity
 pandas
 pbipy
 python-dotenv
+pyyaml

@@ -61,3 +61,7 @@ https://learn.microsoft.com/en-us/graph/auth-v2-user?tabs=http
 
 https://learn.microsoft.com/en-us/fabric/onelake/security/data-access-control-model
 https://learn.microsoft.com/en-us/fabric/data-warehouse/security
+https://www.mssqltips.com/sqlservertip/8046/microsoft-fabric-warehouse-object-column-and-row-level-security/
+
+
+DENY SELECT ON SCHEMA::bronze TO [usertest1@dataverse.com.vn];
