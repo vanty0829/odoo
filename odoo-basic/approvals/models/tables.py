@@ -10,6 +10,7 @@ class Tables(models.Model):
     full_name = fields.Char(string='Full Name', compute='_compute_name',store=True)
     schema_name = fields.Char(related='schema_id.name')
 
+    @api.depends('schema_name', 'name')
     def _compute_name(self):
         for r in self:
             r.full_name = str(r.schema_name) + '.' + str(r.name)
