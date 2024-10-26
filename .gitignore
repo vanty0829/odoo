@@ -1,3 +1,5 @@
 .venv
 
 database/backup/
+fabric/.env
+fabric/conf.yaml

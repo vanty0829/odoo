@@ -1,0 +1,8 @@
+azure-storage-blob
+azure-identity
+pandas
+pbipy
+python-dotenv
+pyyaml
+pyodbc
+SQLAlchemy

@@ -1,0 +1,25 @@
+<odoo>
+	<record id="table_view_form" model="ir.ui.view">
+		<field name="name">tables.form</field>
+		<field name="model">tables</field>
+		<field name="arch" type="xml">
+			<form string="Table">
+				<sheet>
+					<group>
+						<field name="name" />
+						<field name="schema_id" />
+						<field name="full_name" />
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="table_action" model="ir.actions.act_window">
+		<field name="name">Table</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">tables</field>
+	</record>
+
+	<menuitem id="table" name="Table" parent="menu_field" action='table_action' />
+</odoo>

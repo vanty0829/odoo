@@ -1,0 +1,63 @@
+<odoo>
+	<record id="request_view_tree" model="ir.ui.view">
+        <field name="name">request.tree</field>
+        <field name="model">requests</field>
+        <field name="arch" type="xml">
+            <tree string="Requests">
+                <field name="title" />
+				<field name="description" />
+                <field name="users" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+	<record id="request_view_form" model="ir.ui.view">
+		<field name="name">request.form</field>
+		<field name="model">requests</field>
+		<field name="arch" type="xml">
+			<form string="Request">
+				<header>
+					<button name="action_submit" type="object" string="Submit" invisible="state not in ['draft']" data-hotkey="s" class="btn-primary"/>
+					<button name="action_check" type="object" string="Check"  class="btn-primary"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+            	</header>
+				<sheet>
+					<field name="active" invisible="1"/>
+					<div name="button_box" class="oe_button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title" name="sale_order_template_title">
+                        <label for="title" id="sale_order_template_title"/>
+                        <h1>
+                            <field name="title" placeholder="e.g. Standard Consultancy Package" class="d-block"/>
+                        </h1>
+                    </div>
+					<group>
+						<group>
+							<field name="description" />
+							<field name="users" />
+						</group>
+						<group>
+							<field name="from_date" />
+							<field name="to_date" />
+						</group>
+						<group>
+							<field name="schema_id" />
+						</group>
+						<group>
+							<field name="table_id" domain="table_id_domain"/>
+							<field name="table_id_domain" invisible="1"/>
+						</group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="request_action" model="ir.actions.act_window">
+		<field name="name">Request</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">requests</field>
+	</record>
+
+	<menuitem id="request" name="Request" parent="menu_field" action='request_action' />
+</odoo>

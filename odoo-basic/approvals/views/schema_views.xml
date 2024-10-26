@@ -1,0 +1,23 @@
+<odoo>
+	<record id="schema_view_form" model="ir.ui.view">
+		<field name="name">schemas.form</field>
+		<field name="model">schemas</field>
+		<field name="arch" type="xml">
+			<form string="Schema">
+				<sheet>
+					<group>
+						<field name="name" />
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="schema_action" model="ir.actions.act_window">
+		<field name="name">Schema</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">schemas</field>
+	</record>
+
+	<menuitem id="schema" name="Schema" parent="menu_field" action='schema_action' />
+</odoo>
