@@ -12,7 +12,7 @@ tenant_id = os.getenv('tenant_id')
 client_id = os.getenv('client_id')
 client_secret = os.getenv('client_secret')
 # scope= 'offline_access https://api.fabric.microsoft.com/OneLake.ReadWrite.All'
-scope= 'offline_access https://analysis.windows.net/powerbi/api/.default'
+scope = 'offline_access https://analysis.windows.net/powerbi/api/.default'
 
 
 def set_state(key,value):
