@@ -87,3 +87,7 @@ https://blog.gopenai.com/microsoft-fabric-and-langchain-sql-integration-for-natu
 https://github.com/m-kovalsky/Fabric
 
 https://prodata.ie/2024/08/26/connecting-to-fabric-sqlendpoints-using-aad-entra-token-in-notebooks/   --> this work
+
+
+https://stackoverflow.com/questions/76954182/how-to-add-a-member-into-an-azure-ad-group-using-python-azure-databricks
+https://learn.microsoft.com/en-us/graph/api/group-post-members?view=graph-rest-1.0&tabs=python

@@ -3,3 +3,5 @@
 database/backup/
 fabric/.env
 fabric/conf.yaml
+odoo-basic/approvals/models/conf.yaml
+odoo-basic/approvals/models/.env

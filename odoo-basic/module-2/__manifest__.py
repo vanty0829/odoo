@@ -19,7 +19,7 @@ Long description of module's purpose
     #thứ tự khai báo file trong data có dependency
     'data': [
         'security/player_security.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/player_view.xml',
     ],
     # any module necessary for this one to work correctly

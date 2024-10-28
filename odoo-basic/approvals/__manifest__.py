@@ -24,6 +24,8 @@ Long description of module's purpose
         'views/schema_views.xml',
         'views/table_views.xml',
         'views/request_views.xml',
+        'views/ms_user_views.xml',
+        'views/lakehouse_views.xml',
         
     ],
     # any module necessary for this one to work correctly

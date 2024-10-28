@@ -1,0 +1,31 @@
+<odoo>
+	<record id="lakehouse_view_form" model="ir.ui.view">
+		<field name="name">lakehouse.form</field>
+		<field name="model">lakehouse</field>
+		<field name="arch" type="xml">
+			<form string="Lakehouse">
+				<sheet>
+					<group>
+						<field name="name" />
+						<field name="group_id" />
+					</group>
+					<group>
+					</group>
+					<group>
+						<field name="user_id" />
+					</group>
+					<group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="lakehouse_action" model="ir.actions.act_window">
+		<field name="name">Lakehouse</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">lakehouse</field>
+	</record>
+
+	<menuitem id="lakehouse" name="Lakehouse" parent="menu_field" action='lakehouse_action' />
+</odoo>
