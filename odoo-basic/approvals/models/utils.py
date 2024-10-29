@@ -189,21 +189,19 @@ def group_remove_member(lake_name,user_name):
 
 def group_add_member(lake_name,user_name):
     group_id = lake_get_id(lake_name)
-    service_principal = user_get_id(user_name)
+    service_principal = [user_get_id(i) for i in user_name]
 
     access_token = get_token(scopes['graph'],'client')
-    graph_url = f'https://graph.microsoft.com/v1.0/'
-
-    add_member_url = f'{graph_url}/groups/{group_id}/members/$ref'
+    url = f"https://graph.microsoft.com/v1.0/groups/{group_id}"
     headers = {
         'Authorization': f'Bearer {access_token}',
         'Content-Type': 'application/json'
     }
     data = {
-        '@odata.id': f'{graph_url}/directoryObjects/{service_principal}'
+        "members@odata.bind": [f"https://graph.microsoft.com/v1.0/directoryObjects/{member_id}" for member_id in service_principal]
     }
 
-    response = requests.post(add_member_url, headers=headers, json=data)
+    response = requests.patch(url, headers=headers, json=data)
     return response
 
 

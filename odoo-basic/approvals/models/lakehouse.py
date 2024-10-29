@@ -1,9 +1,10 @@
 from odoo import api, fields, models, _
 from . import utils as ms
+from . import asutils as asms
 from sqlalchemy import create_engine
 import pandas as pd
 import json
-
+import asyncio
 class Lakehouse(models.Model):
     _name = 'lakehouse'
     _description = 'lakehouse'
@@ -26,14 +27,13 @@ class Lakehouse(models.Model):
         else:
             lista = []
             listb = [self.env['ms_user'].search([('id','=',i[-1])])['name'] for i in values['user_id']]
+
         addlist = list(set(listb) - set(lista))
         rmlist = list(set(lista) - set(listb))
 
-        for i in addlist:
-            ms.group_add_member(lake_name,i)
-
-        for i in rmlist:
-            ms.group_remove_member(lake_name,i)
+        asms.as_group_add_list(lake_name,addlist)
+        asms.as_group_remove_list(lake_name,rmlist)
+        
 
     @api.model
     def create(self, values):
