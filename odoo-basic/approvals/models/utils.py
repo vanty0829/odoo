@@ -167,9 +167,9 @@ def fabric_create_shortcut(from_ws,from_lk,from_path,to_ws,to_lk,to_path,name):
     }
     return fabric_api(method, uri, payload)
 
-def group_remove_member(group_id,service_principal):
-    group_id = group_id
-    service_principal = service_principal
+def group_remove_member(lake_name,user_name):
+    group_id = lake_get_id(lake_name)
+    service_principal = user_get_id(user_name)
 
     # URL for the DELETE request
     url = f'https://graph.microsoft.com/v1.0/groups/{group_id}/members/{service_principal}/$ref'
@@ -187,9 +187,9 @@ def group_remove_member(group_id,service_principal):
     response = requests.delete(url, headers=headers)
     return response
 
-def group_add_member(group_id,service_principal):
-    group_id = group_id
-    service_principal = service_principal
+def group_add_member(lake_name,user_name):
+    group_id = lake_get_id(lake_name)
+    service_principal = user_get_id(user_name)
 
     access_token = get_token(scopes['graph'],'client')
     graph_url = f'https://graph.microsoft.com/v1.0/'
@@ -205,3 +205,26 @@ def group_add_member(group_id,service_principal):
 
     response = requests.post(add_member_url, headers=headers, json=data)
     return response
+
+
+def lake_get_id(lakename):
+    access_token = get_token(scopes['graph'],'client')
+
+    url = f"https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '{lakename}'&$select=id"
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+    response = requests.get(url, headers=headers)
+    return response.json()['value'][0]['id']
+
+def user_get_id(username):
+    access_token = get_token(scopes['graph'],'client')
+
+    url = f"https://graph.microsoft.com/v1.0/users?$filter=userPrincipalName eq '{username}'&$select=id"
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+    response = requests.get(url, headers=headers)
+    return response.json()['value'][0]['id']

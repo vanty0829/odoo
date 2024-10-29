@@ -13,6 +13,7 @@ client_id = os.getenv('client_id')
 client_secret = os.getenv('client_secret')
 # scope= 'offline_access https://api.fabric.microsoft.com/OneLake.ReadWrite.All'
 # scope = 'offline_access https://analysis.windows.net/powerbi/api/.default'
+
 scopes = {
     'pbi':'offline_access https://analysis.windows.net/powerbi/api/.default',
     'graph':'https://graph.microsoft.com/.default'
@@ -166,8 +167,8 @@ def fabric_create_shortcut(from_ws,from_lk,from_path,to_ws,to_lk,to_path,name):
     }
     return fabric_api(method, uri, payload)
 
-def group_remove_member(service_principal):
-    group_id = '26761c9b-5f00-4ef9-9bfe-4dd40f882a01'
+def group_remove_member(group_id,service_principal):
+    group_id = group_id
     service_principal = service_principal
 
     # URL for the DELETE request
@@ -186,8 +187,8 @@ def group_remove_member(service_principal):
     response = requests.delete(url, headers=headers)
     return response
 
-def group_add_member(service_principal):
-    group_id = '26761c9b-5f00-4ef9-9bfe-4dd40f882a01'
+def group_add_member(group_id,service_principal):
+    group_id = group_id
     service_principal = service_principal
 
     access_token = get_token(scopes['graph'],'client')
@@ -204,3 +205,26 @@ def group_add_member(service_principal):
 
     response = requests.post(add_member_url, headers=headers, json=data)
     return response
+
+
+def lake_get_id(lakename):
+    access_token = get_token(scopes['graph'],'client')
+
+    url = f"https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '{lakename}'&$select=id"
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+    response = requests.get(url, headers=headers)
+    return response.json()['value'][0]['id']
+
+def user_get_id(username):
+    access_token = get_token(scopes['graph'],'client')
+
+    url = f"https://graph.microsoft.com/v1.0/users?$filter=mail eq '{username}'&$select=id"
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+    response = requests.get(url, headers=headers)
+    return response.json()['value'][0]['id']

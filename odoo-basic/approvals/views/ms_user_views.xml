@@ -7,7 +7,6 @@
 				<sheet>
 					<group>
 						<field name="name" />
-						<field name="object_id" />
 					</group>
 				</sheet>
 			</form>
