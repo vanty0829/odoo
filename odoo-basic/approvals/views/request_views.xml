@@ -38,13 +38,13 @@
 					<group>
 						<group>
 							<field name="description" />
-							<field name="lake_id" />
+							<field name="lake_id" readonly = "state not in ['draft']"/>
 							<field name="from_date" />
 							<field name="to_date" />
 							
 						</group>
 						<group>
-							<field name="user_id" />
+							<field name="user_id" readonly = "state not in ['draft']"/>
 						</group>
 						<group>
 							<field name="schema_id" />

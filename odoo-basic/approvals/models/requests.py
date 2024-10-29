@@ -1,4 +1,5 @@
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 import json
 from . import utils as ms
 from . import asutils as asms
@@ -9,7 +10,7 @@ class Requests(models.Model):
     _name = 'requests' # tển bảng
     _description = 'Requests'
     _rec_name = 'title'
-    title = fields.Char(string='Title')
+    title = fields.Char(string='Title' , required = True)
     description = fields.Char(string='Description')
     lake_id = fields.Many2one('lakehouse', string='Lakehouse')
     user_id = fields.Many2many('ms_user', string='Users')
@@ -66,6 +67,10 @@ class Requests(models.Model):
     state_b = fields.Selection(related='state')
     
     def action_submit(self):
+        if len(self.lake_id) == 0:
+            raise UserError(_('Lakehouse field can not empty'))
+        if len(self.user_id) == 0:
+            raise UserError(_('Users field can not empty'))
         self.state = 'submitted'
 
     def action_revoke(self):
@@ -106,7 +111,7 @@ class Requests(models.Model):
                     asms.as_group_add_list(self.lake_id.name,[self.env['ms_user'].search([('id','=',line)]).name])
                 except:
                     pass
-
+    
 
     # def group_api(self,values):
     #     engine = create_engine('postgresql+psycopg2://odoo:odoo@localhost:5433/odoo')
