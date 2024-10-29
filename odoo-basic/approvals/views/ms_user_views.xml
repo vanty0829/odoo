@@ -19,5 +19,5 @@
 		<field name="res_model">ms_user</field>
 	</record>
 
-	<menuitem id="ms_user" name="MS User" parent="menu_field" action='ms_user_action' />
+	<menuitem id="ms_user" name="MS User" parent="master_data" action='ms_user_action' />
 </odoo>

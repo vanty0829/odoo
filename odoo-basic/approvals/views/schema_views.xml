@@ -19,5 +19,6 @@
 		<field name="res_model">schemas</field>
 	</record>
 
-	<menuitem id="schema" name="Schema" parent="menu_field" action='schema_action' />
+	<menuitem id="master_data" name="Master Data" parent="menu_field" action='schema_action' />
+	<menuitem id="schema" name="Schema" parent="master_data" action='schema_action' />
 </odoo>
