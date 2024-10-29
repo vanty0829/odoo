@@ -6,7 +6,7 @@
             <tree string="Requests">
                 <field name="title" />
 				<field name="description" />
-                <field name="users" />
+                <!-- <field name="users" /> -->
                 <field name="state" />
             </tree>
         </field>
@@ -18,8 +18,12 @@
 			<form string="Request">
 				<header>
 					<button name="action_submit" type="object" string="Submit" invisible="state not in ['draft']" data-hotkey="s" class="btn-primary"/>
-					<button name="action_check" type="object" string="Check"  class="btn-primary"/>
-					<field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"/>
+					<button name="action_approve" type="object" string="Approve" invisible="state not in ['submitted']" data-hotkey="a" class="btn-primary"/>
+					<button name="action_revoke" type="object" string="Revoke" invisible="state not in ['approved']" data-hotkey="r" class="btn-primary"/>
+					<!-- <button name="action_check" type="object" string="Check"  class="btn-primary"/> -->
+					<field name="state" invisible="1"/>
+					<field name="state_a" widget="statusbar" invisible="state in ['revoked','canceled']" statusbar_visible="draft,submitted,approved"/>
+					<field name="state_b" widget="statusbar" invisible="state not in ['revoked']" statusbar_visible="revoked"/>
             	</header>
 				<sheet>
 					<field name="active" invisible="1"/>
@@ -34,11 +38,13 @@
 					<group>
 						<group>
 							<field name="description" />
-							<field name="users" />
-						</group>
-						<group>
+							<field name="lake_id" />
 							<field name="from_date" />
 							<field name="to_date" />
+							
+						</group>
+						<group>
+							<field name="user_id" />
 						</group>
 						<group>
 							<field name="schema_id" />

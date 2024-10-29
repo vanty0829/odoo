@@ -6,6 +6,7 @@ import json
 import os
 from dotenv import load_dotenv
 import yaml
+from sqlalchemy import create_engine
 load_dotenv()
 
 tenant_id = os.getenv('tenant_id')
@@ -226,3 +227,20 @@ def user_get_id(username):
     }
     response = requests.get(url, headers=headers)
     return response.json()['value'][0]['id']
+
+def check_user_exist(request_id,user_id):
+    engine = create_engine('postgresql+psycopg2://odoo:odoo@localhost:5433/odoo')
+    df = pd.read_sql( 
+        f"""
+            select 
+            count(*) num
+            from public.requests a
+            join public.ms_user_requests_rel b on a.id = b.requests_id
+            where 
+            a.state = 'approved' 
+            and a.id <> {request_id}
+            and b.ms_user_id = {user_id}
+        """ , 
+        con=engine 
+    ).to_json(orient='records')
+    return json.loads(df)[0]['num']

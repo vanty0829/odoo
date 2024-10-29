@@ -6,6 +6,7 @@ import json
 import os
 from dotenv import load_dotenv
 import yaml
+from sqlalchemy import create_engine
 load_dotenv()
 
 tenant_id = os.getenv('tenant_id')
@@ -167,9 +168,9 @@ def fabric_create_shortcut(from_ws,from_lk,from_path,to_ws,to_lk,to_path,name):
     }
     return fabric_api(method, uri, payload)
 
-def group_remove_member(group_id,service_principal):
-    group_id = group_id
-    service_principal = service_principal
+def group_remove_member(lake_name,user_name):
+    group_id = lake_get_id(lake_name)
+    service_principal = user_get_id(user_name)
 
     # URL for the DELETE request
     url = f'https://graph.microsoft.com/v1.0/groups/{group_id}/members/{service_principal}/$ref'
@@ -187,23 +188,21 @@ def group_remove_member(group_id,service_principal):
     response = requests.delete(url, headers=headers)
     return response
 
-def group_add_member(group_id,service_principal):
-    group_id = group_id
-    service_principal = service_principal
+def group_add_member(lake_name,user_name):
+    group_id = lake_get_id(lake_name)
+    service_principal = [user_get_id(i) for i in user_name]
 
     access_token = get_token(scopes['graph'],'client')
-    graph_url = f'https://graph.microsoft.com/v1.0/'
-
-    add_member_url = f'{graph_url}/groups/{group_id}/members/$ref'
+    url = f"https://graph.microsoft.com/v1.0/groups/{group_id}"
     headers = {
         'Authorization': f'Bearer {access_token}',
         'Content-Type': 'application/json'
     }
     data = {
-        '@odata.id': f'{graph_url}/directoryObjects/{service_principal}'
+        "members@odata.bind": [f"https://graph.microsoft.com/v1.0/directoryObjects/{member_id}" for member_id in service_principal]
     }
 
-    response = requests.post(add_member_url, headers=headers, json=data)
+    response = requests.patch(url, headers=headers, json=data)
     return response
 
 
@@ -221,10 +220,28 @@ def lake_get_id(lakename):
 def user_get_id(username):
     access_token = get_token(scopes['graph'],'client')
 
-    url = f"https://graph.microsoft.com/v1.0/users?$filter=mail eq '{username}'&$select=id"
+    url = f"https://graph.microsoft.com/v1.0/users?$filter=userPrincipalName eq '{username}'&$select=id"
     headers = {
         'Authorization': f'Bearer {access_token}',
         'Content-Type': 'application/json'
     }
     response = requests.get(url, headers=headers)
     return response.json()['value'][0]['id']
+
+def check_user_exist(request_id,username):
+    engine = create_engine('postgresql+psycopg2://odoo:odoo@localhost:5433/odoo')
+    df = pd.read_sql( 
+        f"""
+            select 
+            count(*) num
+            from public.requests a
+            join public.ms_user_requests_rel b on a.id = b.requests_id 
+            join public.ms_user c on b.ms_user_id = c.id
+            where 
+            a.state = 'approved' 
+            and a.id <> {request_id}
+            and c."name" = '{username}'
+        """ , 
+        con=engine 
+    ).to_json(orient='records')
+    return json.loads(df)[0]['num']
