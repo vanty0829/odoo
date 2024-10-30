@@ -16,7 +16,7 @@ client_secret = os.getenv('client_secret')
 # scope = 'offline_access https://analysis.windows.net/powerbi/api/.default'
 
 scopes = {
-    'pbi':'offline_access https://analysis.windows.net/powerbi/api/.default',
+    'pbi':'https://analysis.windows.net/powerbi/api/.default',
     'graph':'https://graph.microsoft.com/.default'
 }
 
@@ -48,7 +48,7 @@ def get_code(scope):
         'response_type': response_type,
         'redirect_uri': redirect_uri,
         'response_mode': response_mode,
-        'scope': scope,
+        'scope': 'offline_access ' + scopes[scope],
         'state': state
     }
 
@@ -66,7 +66,7 @@ def get_token(scope,type,code=''):
             # Prepare the data for the request
             data = {
                 'client_id': client_id,
-                'scope': scope,
+                'scope': 'offline_access ' + scopes[scope],
                 'code': code,
                 'redirect_uri': 'http://localhost/myapp/',
                 'grant_type': 'authorization_code',
@@ -79,8 +79,8 @@ def get_token(scope,type,code=''):
             # Check the response
             if response.status_code == 200:
                 token_info = response.json()
-                set_state('access_token',token_info['access_token'])
-                set_state('refresh_token',token_info['refresh_token'])
+                set_state(scope,'access_token',token_info['access_token'])
+                set_state(scope,'refresh_token',token_info['refresh_token'])
                 return token_info['access_token']
             else:
                 return response.text
@@ -91,8 +91,8 @@ def get_token(scope,type,code=''):
             # Set the data for the POST request
             data = {
                 'client_id': client_id,
-                'scope': scope,
-                'refresh_token': get_state('refresh_token'),  # Replace with your refresh token
+                'scope': 'offline_access ' + scopes[scope],
+                'refresh_token': get_state(scope,'refresh_token'),  # Replace with your refresh token
                 'grant_type': 'refresh_token',
                 'client_secret': client_secret  # Replace with your client secret if required
             }
@@ -100,8 +100,8 @@ def get_token(scope,type,code=''):
             # Make the POST request
             response = requests.post(url, data=data)
 
-            set_state('access_token',response.json()['access_token'])
-            set_state('refresh_token',response.json()['refresh_token'])
+            set_state(scope,'access_token',response.json()['access_token'])
+            set_state(scope,'refresh_token',response.json()['refresh_token'])
             return response.json()['access_token']
     elif type == 'client':
         url = f'https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token'
@@ -109,7 +109,7 @@ def get_token(scope,type,code=''):
         # Set the data for the POST request
         data = {
             'client_id': client_id,
-            'scope': scope,
+            'scope': scopes[scope],
             'grant_type': 'client_credentials',
             'client_secret': client_secret  # Replace with your client secret if required
         }
@@ -176,7 +176,7 @@ def group_remove_member(lake_name,user_name):
     url = f'https://graph.microsoft.com/v1.0/groups/{group_id}/members/{service_principal}/$ref'
 
     # Replace with your access token
-    access_token = get_token(scopes['graph'],'client')
+    access_token = get_token('graph','client')
 
     # Set up headers
     headers = {
@@ -192,7 +192,7 @@ def group_add_member(lake_name,user_name):
     group_id = lake_get_id(lake_name)
     service_principal = [user_get_id(i) for i in user_name]
 
-    access_token = get_token(scopes['graph'],'client')
+    access_token = get_token('graph','client')
     url = f"https://graph.microsoft.com/v1.0/groups/{group_id}"
     headers = {
         'Authorization': f'Bearer {access_token}',
@@ -207,7 +207,7 @@ def group_add_member(lake_name,user_name):
 
 
 def lake_get_id(lakename):
-    access_token = get_token(scopes['graph'],'client')
+    access_token = get_token('graph','client')
 
     url = f"https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '{lakename}'&$select=id"
     headers = {
@@ -218,7 +218,7 @@ def lake_get_id(lakename):
     return response.json()['value'][0]['id']
 
 def user_get_id(username):
-    access_token = get_token(scopes['graph'],'client')
+    access_token = get_token('graph','client')
 
     url = f"https://graph.microsoft.com/v1.0/users?$filter=userPrincipalName eq '{username}'&$select=id"
     headers = {
@@ -228,19 +228,69 @@ def user_get_id(username):
     response = requests.get(url, headers=headers)
     return response.json()['value'][0]['id']
 
-def check_user_exist(request_id,user_id):
+def check_user_exist(request_id,username):
     engine = create_engine('postgresql+psycopg2://odoo:odoo@localhost:5433/odoo')
     df = pd.read_sql( 
         f"""
             select 
             count(*) num
             from public.requests a
-            join public.ms_user_requests_rel b on a.id = b.requests_id
+            join public.ms_user_requests_rel b on a.id = b.requests_id 
+            join public.ms_user c on b.ms_user_id = c.id
             where 
             a.state = 'approved' 
             and a.id <> {request_id}
-            and b.ms_user_id = {user_id}
+            and c."name" = '{username}'
         """ , 
         con=engine 
     ).to_json(orient='records')
     return json.loads(df)[0]['num']
+
+def get_chat_id(users,group_name=''):
+    url = "https://graph.microsoft.com/v1.0/chats"
+
+    # Define the headers
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer "+get_token('graph','client')  # Replace with your access token
+    }
+
+    # Define the payload
+    members = []
+    for i in users:
+        members.append(
+            {
+                "@odata.type": "#microsoft.graph.aadUserConversationMember",
+                "roles": ["owner"],
+                "user@odata.bind": "https://graph.microsoft.com/v1.0/users('"+user_get_id(i)+"')"
+            }
+        )
+    if not(group_name):
+        payload = {
+            "chatType": "oneOnOne",
+            "members": members
+        }
+    else:
+        payload = {
+            "chatType": "group",
+            "topic": group_name,
+            "members": members
+        }
+
+    # Make the POST request
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    return response.json()['id']
+
+def send_message(to_user,payload):
+    chat_id = get_chat_id(['ty.le@dataverse.com.vn',to_user])
+    url = f"https://graph.microsoft.com/v1.0/chats/{chat_id}/messages"
+
+    # Define the headers
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer "+get_token('graph','code') 
+    }
+
+    # Make the POST request
+    response = requests.post(url, headers=headers, data=json.dumps(payload))
+    return response.json()
